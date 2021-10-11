@@ -3,7 +3,6 @@
   tasks:
     - name: Installs nginx web server
       yum: pkg=nginx state=installed update_cache=true
-      notify:
-        - start nginx
+     
 
   
