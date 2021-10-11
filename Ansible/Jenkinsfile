@@ -14,7 +14,7 @@ pipeline {
         stage('Ansible run') {
             steps {
                 sshagent(['ansibleserver']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.43.10  ansible-playbook nginx.yaml'
+                        sh 'ssh -o StrictHostKeyChecking=no  root@172.31.43.10  ansible-playbook nginx.yaml'
                        // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  ansible-playbook app_deploy.yml'
                     }              
                        
