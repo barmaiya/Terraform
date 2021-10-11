@@ -2,7 +2,8 @@
 - hosts: nodeserver
   tasks:
     - name: Installs nginx web server
-      yum: pkg=nginx state=installed update_cache=true
+      action: yum name=wget,bzip2 state=installed
+
      
 
   
