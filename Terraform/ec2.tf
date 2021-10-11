@@ -11,8 +11,6 @@ resource "aws_instance" "Node1"{
     region  = "ap-south-1"
 }
 
-export AWS_ACCESS_KEY_ID="AKIAXHUQFAXYCZ3MNH6Y"
-export AWS_SECRET_ACCESS_KEY="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"
 
 # #create ec2 instance
 # resource "aws_instance" "Node2"{
