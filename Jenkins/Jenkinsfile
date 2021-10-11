@@ -21,8 +21,8 @@ pipeline {
         stage('terraform apply') {
             steps {
                 sshagent(['terraformserver']) {
-                       // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform init'
-                       // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform apply -auto-approve'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform init'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform apply -auto-approve'
                     }              
                        
             }
