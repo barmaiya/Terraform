@@ -4,7 +4,7 @@ pipeline {
         stage('git chekout') {
             steps {
                 // below command pull file from github and insert in  /var/lib/jenkins/workspace
-               git branch: 'main', url: 'https://github.com/barmaiya/Terraform.git'
+               git branch: 'master', url: 'https://github.com/barmaiya/Terraform.git'
             }
         }
                 
