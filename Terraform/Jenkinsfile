@@ -13,18 +13,18 @@ pipeline {
                 
         stage('terraform connect and copy .tf fle to terraform server') {
             steps {
-               sshagent(['Terraform_Server']) {
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'Terraform_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Terraform/*.tf')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-                     
-                }
+               sshPublisher(publishers: [sshPublisherDesc(configName: 'Terraform_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Terraform/*.tf')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
         
         stage('terraform init and apply') {
             steps {
+                //terraKey has been added in Jenkins with ec2-user and privateKey
+                //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
+                //so below ec2-user@172.31.41.40 means like we login in putyy using ec2-user in 172.31.41.40
                 sshagent(['terraKey']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  sudo terraform init'
-                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  sudo terraform apply -auto-approve'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.41.40   terraform init'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.41.40   terraform apply -auto-approve'
                     }              
                        
             }
