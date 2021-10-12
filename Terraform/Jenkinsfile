@@ -20,8 +20,8 @@ pipeline {
         stage('terraform init and apply') {
             steps {
                 sshagent(['Terraform_Server']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  terraform init'
-                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  terraform apply -auto-approve'
+                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  sudo terraform init'
+                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  sudo terraform apply -auto-approve'
                     }              
                        
             }
