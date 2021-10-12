@@ -10,8 +10,8 @@ pipeline {
                 
         stage('terraform connect and copy .tf fle to terraform server') {
             steps {
-               sshagent(['terraformserver']) {
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'terraformserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Terraform/*.tf')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+               sshagent(['Terraform_Server']) {
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'Terraform_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Terraform/*.tf')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                      
                 }
             }
@@ -19,9 +19,9 @@ pipeline {
         
         stage('terraform init and apply') {
             steps {
-                sshagent(['terraformserver']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform init'
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  terraform apply -auto-approve'
+                sshagent(['Terraform_Server']) {
+                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  terraform init'
+                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.41.40  terraform apply -auto-approve'
                     }              
                        
             }

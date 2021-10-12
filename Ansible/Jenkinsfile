@@ -4,8 +4,8 @@ pipeline {
         
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
-                sshagent(['ansibleserver']) {
-                     sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshagent(['Ansible_Server']) {
+                     sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                      
                 }
             }
@@ -13,11 +13,11 @@ pipeline {
 
         stage('Ansible run') {
             steps {
-                sshagent(['ansibleserver']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.43.10  pwd'
+                sshagent(['Ansible_Server']) {
+                        sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.36.214  pwd'
 
-                        .//sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.43.10  Ansible/ansible-playbook nginx.yaml'
-                       // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  ansible-playbook app_deploy.yml'
+                        .//sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.36.214  Ansible/ansible-playbook nginx.yaml'
+                       // sh 'ssh -o StrictHostKeyChecking=no  Admin@172.31.40.57  ansible-playbook app_deploy.yml'
                     }              
                        
             }
