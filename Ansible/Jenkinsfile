@@ -4,7 +4,7 @@ pipeline {
         
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
-                     sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                     sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                   
             }
         }
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 //terraKey has been added in Jenkins with ec2-user and privateKey
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
-                //so below ec2-user@172.31.41.40 means like we login in putyy using ec2-user in 172.31.41.40
+                //so below ec2-user@172.31.36.214 means like we login in putyy using ec2-user in 172.31.36.214
                 sshagent(['terraKey']) {
                         sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.36.214  Ansible/ansible-playbook nginx.yaml'
                         sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57  ansible-playbook app_deploy.yml'
