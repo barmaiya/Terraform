@@ -1,5 +1,8 @@
 pipeline {
     agent any 
+    tools {
+        terraform 'TerraformPlugins'
+    }
     stages {
         stage('git chekout') {
             steps {
