@@ -5,7 +5,7 @@ pipeline {
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
                      sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-                  
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv *.yaml /etc/ansible/'
             }
         }
 
@@ -15,11 +15,9 @@ pipeline {
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
                 //so below ec2-user@172.31.36.214 means like we login in putyy using ec2-user in 172.31.36.214
                 sshagent(['ansiblekey1']) {
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export AWS_ACCESS_KEY_ID="AKIATWMZIBQXDHPMDZFO"'
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export AWS_SECRET_ACCESS_KEY="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"'
-
+                    
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
                        
