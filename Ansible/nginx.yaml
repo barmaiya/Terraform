@@ -1,9 +1,16 @@
 ---
-- hosts: nodeserver
+- name: Install nginx
+  hosts: all
+  become: yes
+
   tasks:
-    - name: Installs nginx web server
-      action: yum name=wget,bzip2 state=installed
+  - name: Install nginx
+    yum:
+      name: httpd
+      state: present
 
-     
+  - name: Start NGiNX
+    service:
+      name: httpd
+      state: started  
 
-  
