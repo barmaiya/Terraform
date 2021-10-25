@@ -17,7 +17,7 @@ pipeline {
                 sshagent(['ansiblekey1']) {
                     //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  cd ../../etc/ansible'
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i ../../etc/ansible/ec2.py -l tag_type_node --private-key=../../etc/ansible/key1.pem ../../etc/ansible/nginx.yaml'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
                        
