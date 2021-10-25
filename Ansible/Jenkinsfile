@@ -4,18 +4,22 @@ pipeline {
         
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
+                //copy file from jenkin workstation to ansible server
                      sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
 
         stage('Ansible run') {
             steps {
-                //terraKey has been added in Jenkins with ec2-user and privateKey
+                //ansiblekey1 has been added in Jenkins with ec2-user and privateKey
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
-                //so below ec2-user@172.31.36.214 means like we login in putyy using ec2-user in 172.31.36.214
+                //so below ec2-user@172.31.37.74 means like we login in putyy using ec2-user in 1172.31.37.74
                 sshagent(['ansiblekey1']) {
+                    //mv previous step copied files to ansible executable directory
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv *.yaml /etc/ansible/'
+                    // set path to ansible executable directory to run ansible commands
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
+                    //run ansible command
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
