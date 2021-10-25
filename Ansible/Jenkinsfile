@@ -4,7 +4,7 @@ pipeline {
         
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
-                     sshPublisher(publishers: [sshPublisherDesc(configName: 'Ansible_Server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                     sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                   
             }
         }
