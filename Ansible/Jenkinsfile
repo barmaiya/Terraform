@@ -19,7 +19,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export AWS_SECRET_ACCESS_KEY="5rDi3qAkWV3UAFqGBQ16zJnTmJD8DABgsBI6KrVH"'
 
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
                        
