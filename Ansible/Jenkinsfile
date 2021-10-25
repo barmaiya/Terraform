@@ -14,7 +14,7 @@ pipeline {
                 //terraKey has been added in Jenkins with ec2-user and privateKey
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
                 //so below ec2-user@172.31.36.214 means like we login in putyy using ec2-user in 172.31.36.214
-                sshagent(['ansibleserver']) {
+                sshagent(['ansiblekey1']) {
                         sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.2.91  ansible-playbook nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
