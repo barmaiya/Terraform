@@ -15,7 +15,7 @@ pipeline {
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
                 //so below ec2-user@172.31.36.214 means like we login in putyy using ec2-user in 172.31.36.214
                 sshagent(['ansiblekey1']) {
-                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook nginx.yaml'
+                        sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i ec2.py -l tag_type_node --private-key=key1.pem nginx.yaml'
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
                     }              
                        
