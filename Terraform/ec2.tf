@@ -11,26 +11,27 @@ resource "aws_instance" "node"{
     key_name="key1"
     tags = {
         "type" = "node"
+        "Name" ="Node1"
     }
 }
 
 #security group
-resource "aws_security_group" "sec_group" {
-  name        = "sec_group"
-  description = "Web Security Group for HTTP"
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    }
-}   
+# resource "aws_security_group" "sec_group" {
+#   name        = "sec_group"
+#   description = "Web Security Group for HTTP"
+#   ingress {
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#     }
+# }   
 
-#attach to instance
-resource "aws_network_interface_sg_attachment" "sg_attachment" {
-  security_group_id    = "${aws_security_group.sec_group.id}"
-  network_interface_id = "${aws_instance.node.primary_network_interface_id}"
-}
+# #attach to instance
+# resource "aws_network_interface_sg_attachment" "sg_attachment" {
+#   security_group_id    = "${aws_security_group.sec_group.id}"
+#   network_interface_id = "${aws_instance.node.primary_network_interface_id}"
+# }
 
 
 
