@@ -4,7 +4,7 @@ provider "aws"{
 }
 
 #create ec2 instance
-resource "aws_instance" "Node2"{
+resource "aws_instance" "node"{
     ami ="ami-041d6256ed0f2061c"
     instance_type="t2.micro"
 }
@@ -24,7 +24,7 @@ resource "aws_security_group" "sg" {
 #attach to instance
 resource "aws_network_interface_sg_attachment" "sg_attachment" {
   security_group_id    = "${data.aws_security_group.sec_group.id}"
-  network_interface_id = "${aws_instance.web.primary_network_interface_id}"
+  network_interface_id = "${aws_instance.node.primary_network_interface_id}"
 }
 
 
