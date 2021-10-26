@@ -11,7 +11,7 @@ resource "aws_instance" "Node2"{
 
 #security group
 resource "aws_security_group" "sg" {
-  name        = "sg"
+  name        = "sec_group"
   description = "Web Security Group for HTTP"
   ingress {
     from_port   = 80
