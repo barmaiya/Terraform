@@ -10,7 +10,7 @@ resource "aws_instance" "node"{
 }
 
 #security group
-resource "aws_security_group" "sg" {
+resource "aws_security_group" "sec_group" {
   name        = "sec_group"
   description = "Web Security Group for HTTP"
   ingress {
