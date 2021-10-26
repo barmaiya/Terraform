@@ -24,7 +24,7 @@ pipeline {
                    // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible -i /etc/ansible/ec2.py tag_type_node -m ping --private-key=/etc/ansible/key1.pem -auto-approve'
 
                     //run ansible command
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml -auto-approve'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml '
                     //ansible -i ec2.py tag_type_node -m ping --private-key=key1.pem
                     //ansible -i ec2.py tag_type_node -m ping --private-key=key1.pem
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
