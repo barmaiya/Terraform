@@ -1,6 +1,7 @@
 #setup provider which is aws in this case with aws credential
 provider "aws"{
     region="ap-south-1"
+    shared_credentials_file = "/home/ec2-user/.aws/credentials"
 }
 
 #create ec2 instance
