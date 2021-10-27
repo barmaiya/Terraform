@@ -36,9 +36,9 @@ pipeline {
                     // //run below ansible command to install apache server
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml '
                     // //run below ansible command to pull docker image and create container using app_deploy.yml playbook
-                     //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/app_deploy.yml '
-
-                    
+                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/docker_install.yml '
+                    // //run below ansible command to pull docker image and create container using app_deploy.yml playbook
+                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/app_deploy.yml '
                     //**************************************************************
                     }              
                        
