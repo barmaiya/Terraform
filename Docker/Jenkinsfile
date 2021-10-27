@@ -32,10 +32,10 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo tar xvf dockerdeployment.tar '
                    //now delete tar file
                    
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo rm -r /etc/ansible/* -f '
+                    //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo rm -r * -f '
 
                    //now un tar tar file
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv * /etc/ansible/ '
+                    //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv * /etc/ansible/ '
 
                     // // assume dockerfile copied in this server now build image out of docker file.
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.v1.$BUILD_ID'
