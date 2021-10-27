@@ -6,6 +6,11 @@ pipeline {
                 // below command pull file from github and insert in  /var/lib/jenkins/workspace
                git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
             }
+
+            steps {
+                // below command pull file from github and insert in  /var/lib/jenkins/workspace
+                              git branch: 'master', url: 'https://github.com/barmaiya/Terraform.git'
+            }
         }
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
