@@ -38,7 +38,7 @@ pipeline {
                     //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv * /etc/ansible/ '
 
                     // // assume dockerfile copied in this server now build image out of docker file.
-                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.v1.$BUILD_ID .'
+                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME .'
                     // // Give tag
                      //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME.v1.$BUILD_ID '
                     
@@ -46,7 +46,7 @@ pipeline {
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME:latest'
 
                     // // now push that image to central repository dockerhum
-                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.v1.$BUILD_ID'
+                     //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.v1.$BUILD_ID'
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME:latest'
 
                     // // now remove image to clean the storage bcoz its push already in dockerhub
