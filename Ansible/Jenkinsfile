@@ -1,11 +1,19 @@
 pipeline {
     agent any 
     stages {
-        
+        stage('git chekout') {
+            steps {
+                // below command pull file from github and insert in  /var/lib/jenkins/workspace
+               git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
+            }
+        }
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
-                //copy file from jenkin workstation to ansible server
+                //copy configuration file from jenkin workstation to ansible server 
                      sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                //copy dockerfile and app from jenkin workstation to ansible server for docker
+                     sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false,  sourceFiles: '*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
             }
         }
 
@@ -15,19 +23,46 @@ pipeline {
                 //note we have to add ec2-user only other wont work as aws machine we login with ec2-user
                 //so below ec2-user@172.31.37.74 means like we login in putyy using ec2-user in 1172.31.37.74
                 sshagent(['ansiblekey1']) {
+                    // docker and ansible both install in this server
+                    // so we will perform both operation in this server one by one
+                    // otherwise you can create seprate server for docker
+                    //*********************docker operation****************
+                    // install docker in node using docker_install.yml
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/docker_install.yml '
+
+                    // assume dockerfile copied in this server now build image out of docker file.
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.V1.$BUILD_ID'
+                    // Give tag
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.V1.$BUILD_ID barmaiya/$JOB_NAME.V1.$BUILD_ID'
+                    
+                    // Give tag with latest so latest will be fetch on container creattion
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.V1.$BUILD_ID barmaiya/$JOB_NAME:latest'
+
+                    // now push that image to central repository dockerhum
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME:latest'
+
+                    // now remove image to clean the storage bcoz its push already in dockerhub
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image rmi barmaiya/$JOB_NAME:.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image rmi barmaiya/$JOB_NAME:latest'
+
+                    //**************************************************
+
+                    //***************************ansible operation********************
                     //mv previous step copied files to ansible executable directory
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv *.yaml /etc/ansible/'
                     // set path to ansible executable directory to run ansible commands
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
                     
-                    //make conection
-                   // sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible -i /etc/ansible/ec2.py tag_type_node -m ping --private-key=/etc/ansible/key1.pem -auto-approve'
-
-                    //run ansible command
+                    //run below ansible command to install apache server
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/nginx.yaml '
+                    //run below ansible command to pull docker image and create container using app_deploy.yml playbook
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74   ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/app_deploy.yml '
+
                     //ansible -i ec2.py tag_type_node -m ping --private-key=key1.pem
                     //ansible -i ec2.py tag_type_node -m ping --private-key=key1.pem
                         //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.40.57   ansible-playbook app_deploy.yml'
+                    //**************************************************************
                     }              
                        
             }

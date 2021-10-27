@@ -1,8 +1,8 @@
 ---
-- hosts: nodeserver
+- hosts: all
   tasks:
-    - name: Installs nginx web server
-      action: yum name=wget,bzip2 state=installed
+    - name: create container out of docker image
+      shell: docker container run -itd --name python_app -p 9000:80 barmaiya/ansibleOperation
 
      
 
