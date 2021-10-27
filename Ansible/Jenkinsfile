@@ -1,15 +1,26 @@
 pipeline {
     agent any 
     stages {
-        stage('git chekout') {
+        stage('git chekout ansible config') {
             steps {
                 // below command pull file from github and insert in  /var/lib/jenkins/workspace
-               git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
+              
                 git branch: 'master', url: 'https://github.com/barmaiya/Terraform.git'
             }
 
            
         }
+
+        stage('git chekout dockerfile sourcecode fles') {
+            steps {
+                // below command pull file from github and insert in  /var/lib/jenkins/workspace
+               git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
+                
+            }
+
+           
+        }
+
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
                 //copy configuration file from jenkin workstation to ansible server 
