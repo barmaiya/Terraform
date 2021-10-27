@@ -11,7 +11,7 @@ pipeline {
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
                     //copy dockerfile and app from jenkin workstation to ansible server for docker
-                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false,  sourceFiles: 'PYTHONAPP/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false,  sourceFiles: './*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
 
