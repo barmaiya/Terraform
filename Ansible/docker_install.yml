@@ -2,7 +2,7 @@
 - hosts: all
   tasks:
     - name: install docker first
-      shell: sudo yum  install docker
+      shell: sudo yum  install docker -y
     - name: start docker first
       shell: sudo systemctl start docker
 
