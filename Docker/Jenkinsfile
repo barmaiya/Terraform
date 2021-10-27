@@ -5,6 +5,8 @@ pipeline {
             steps {
                 // below command pull file from github and insert in  /var/lib/jenkins/workspace
                git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
+               // zip all files to send over sshpublisher
+               sh 'pwd'
             }
         }
 
