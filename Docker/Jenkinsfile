@@ -40,7 +40,7 @@ pipeline {
                     // // assume dockerfile copied in this server now build image out of docker file.
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.v1.$BUILD_ID .'
                     // // Give tag
-                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME.v1.$BUILD_ID '
+                     //sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME.v1.$BUILD_ID '
                     
                     // // Give tag with latest so latest will be fetch on container creattion
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME:latest'
