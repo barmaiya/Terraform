@@ -36,19 +36,19 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/docker_install.yml '
 
                     // assume dockerfile copied in this server now build image out of docker file.
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image build -t $JOB_NAME.v1.$BUILD_ID'
                     // Give tag
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.V1.$BUILD_ID barmaiya/$JOB_NAME.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME.v1.$BUILD_ID'
                     
                     // Give tag with latest so latest will be fetch on container creattion
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.V1.$BUILD_ID barmaiya/$JOB_NAME:latest'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME:latest'
 
                     // now push that image to central repository dockerhum
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.v1.$BUILD_ID'
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME:latest'
 
                     // now remove image to clean the storage bcoz its push already in dockerhub
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image rmi barmaiya/$JOB_NAME:.V1.$BUILD_ID'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image rmi barmaiya/$JOB_NAME:.v1.$BUILD_ID'
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image rmi barmaiya/$JOB_NAME:latest'
 
                     //**************************************************
