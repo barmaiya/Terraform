@@ -30,6 +30,7 @@ pipeline {
                     //***************************ansible operation********************
                     //mv previous step copied files to ansible executable directory
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv *.yaml /etc/ansible/'
+                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv *.yml /etc/ansible/'
                     // // set path to ansible executable directory to run ansible commands
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  export PATH=$PATH:/etc/ansible'
                     
