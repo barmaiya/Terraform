@@ -5,7 +5,7 @@ pipeline {
             steps {
                 // below command pull file from github and insert in  /var/lib/jenkins/workspace
                git branch: 'demo', url: 'https://github.com/barmaiya/TopIndex.git'
-                git branch: 'master', url: 'https://github.com/barmaiya/Terraform.git'
+               // git branch: 'master', url: 'https://github.com/barmaiya/Terraform.git'
             }
 
            
@@ -13,9 +13,9 @@ pipeline {
         stage('ansible server connect and copy yaml fle to ansible server') {
             steps {
                 //copy configuration file from jenkin workstation to ansible server 
-                     //sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                     sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: 'Ansible/', sourceFiles: 'Ansible/*.*')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 //copy dockerfile and app from jenkin workstation to ansible server for docker
-                    // sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false,  sourceFiles: '/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'ansibleserver', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false,  sourceFiles: '/**')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
               
             }
         }
