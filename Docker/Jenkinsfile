@@ -43,7 +43,7 @@ pipeline {
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME.v1.$BUILD_ID '
                     
                     // // Give tag with latest so latest will be fetch on container creattion
-                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME:latest .'
+                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image tag $JOB_NAME.v1.$BUILD_ID barmaiya/$JOB_NAME:latest'
 
                     // // now push that image to central repository dockerhum
                      sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo docker image push barmaiya/$JOB_NAME.v1.$BUILD_ID'
