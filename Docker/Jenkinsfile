@@ -28,9 +28,9 @@ pipeline {
                     // otherwise you can create seprate server for docker
                     //*********************docker operation****************
                     //mv previous step copied files to ansible executable directory
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv dockerdeployment.tar /etc/ansible/'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo tar xvf dockerdeployment.tar '
                    //now un tar tar file
-                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo tar xvf /etc/ansible/dockerdeployment.tar'
+                    sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  sudo mv * /etc/ansible/ '
 
                     // // install docker in node using docker_install.yml
                     sh 'ssh -o StrictHostKeyChecking=no  ec2-user@172.31.37.74  ansible-playbook -i /etc/ansible/ec2.py -l tag_type_node --private-key=/etc/ansible/key1.pem /etc/ansible/docker_install.yml '
