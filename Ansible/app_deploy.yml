@@ -2,14 +2,11 @@
 - hosts: all
   become: yes
   tasks:
-    - name: stop existing container to run updated one
-      shell:  docker container stop web
-
-    - name: remove existing container
-      shell:  docker container rm web
+    - name: stop/remove existing container to run updated one
+      shell:  docker stop web || true && docker rm web || true
 
     - name: remove existing image
-      shell:  docker image rm barmaiya/dockertask 
+      shell:  docker rmi barmaiya/dockertask || true 
        
     - name: create container out of docker image
       shell:  docker container run --name web -itd  -p 5000:5000 barmaiya/dockertask
