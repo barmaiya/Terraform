@@ -2,7 +2,7 @@
 - hosts: all
   become: yes
   tasks:
-    - name: stop existing container
+    - name: stop existing container to run updated one
       shell:  docker container stop web
 
     - name: remove existing container
