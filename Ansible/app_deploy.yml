@@ -2,14 +2,21 @@
 - hosts: all
   become: yes
   tasks:
-    - name: stop/remove existing container to run updated one
-      shell:  docker stop web || true && docker rm web || true
+    #   **************Docker Section **********************************
+    # - name: stop/remove existing container to run updated one
+    #   shell:  docker stop web || true && docker rm web || true
 
-    - name: remove existing image
-      shell:  docker rmi barmaiya/dockertask || true 
+    # - name: remove existing image
+    #   shell:  docker rmi barmaiya/dockertask || true 
        
-    - name: create container out of docker image
-      shell:  docker container run --name web -itd  -p 5000:5000 barmaiya/dockertask
+    # - name: create container out of docker image
+    #   shell:  docker container run --name web -itd  -p 5000:5000 barmaiya/dockertask
+    #   **************Docker Section END **********************************
+
+      - name: create new deployment on kubernets
+        shell:  kubectl apply -f deployment.yaml
+      - name: create new service on kubernetes
+        shell:  kubectl apply -f service.yaml 
 
      
 

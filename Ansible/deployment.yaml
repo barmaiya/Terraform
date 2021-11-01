@@ -1,0 +1,20 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webdeployment
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: web
+        image: barmaiya/dockertask
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000

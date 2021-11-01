@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+  namespace: default
+  labels:
+    app: web
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: web
+  type: LoadBalancer
